@@ -1,25 +1,29 @@
 defmodule Chop do
-	def guess(actual, a, b, attempt \\ nil)
+	def guess(actual, range) do
+		a..b = range
+		attempt = _diff(a, b) + a
+		_guess(actual, a, b, attempt)
+	end
 
-	def guess(actual, a, b, attempt) when a==b do
+	def _guess(actual, a, b, attempt)
+
+	def _guess(actual, a, b, attempt) when attempt==actual do
 		IO.puts actual
 	end
-	
-	def guess(actual, a, b, attempt) when attempt==nil do
-		guess(actual, a, b, makeguess(a, b))
-	end
 
-	def guess(actual, a, b, attempt) when actual>attempt do
+	def _guess(actual, a, b, attempt) when actual>attempt do
 		IO.puts "Is your number #{attempt}?"
-		guess(actual, a, attempt)
+		range = attempt..b
+		guess(actual, range)
 	end
 
-	def guess(actual, a, b, attempt) when actual<attempt do
+	def _guess(actual, a, b, attempt) when actual<attempt do
 		IO.puts "Is your number #{attempt}?"
-		guess(actual, attempt, b)
+		range = a..attempt
+		guess(actual, range)
 	end
 
-	def makeguess(a, b) do
+	def _diff(a, b) do
 		div(b-a, 2)
 	end
 end
