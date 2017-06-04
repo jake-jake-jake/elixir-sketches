@@ -5,3 +5,9 @@ defmodule Sum do
 	def ofList([]), do: 0
 	def ofList([h|t]), do: h + ofList t
 end
+
+defmodule Mapsum do
+	def mapsum([], _func), do: 0
+	def mapsum([h|t], func), do: func.(h) + mapsum(t, func)
+end
+
