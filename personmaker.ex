@@ -10,6 +10,13 @@ defmodule PersonMaker do
     %{first_name: get_name(@first_names), last_name: get_name(@last_names), age: get_age()}
   end
   def make_more(n) when n == 0, do: []
-  def make_more(n) when is_integer(n) and n > 0, do: [make | make_more(n - 1)]
+  def make_more(n) when is_integer(n) and n > 0, do: [make() | make_more(n - 1)]
 
+end
+
+
+defmodule PersonMatcher do
+	def age_match(persons, age_target) do 
+		for person <- persons, person.age == age_target, do: person
+	end
 end
