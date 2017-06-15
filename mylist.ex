@@ -4,7 +4,6 @@ defmodule MyList do
 	end
 
 	def flatten(l) when is_list(l), do: _flatten(l)
-
 	defp _flatten(l, acc \\ [])
 	defp _flatten([], acc), do: acc ++ []
 	defp _flatten([h|t], acc) when is_list(h), do: _flatten(t, acc ++ _flatten(h))
