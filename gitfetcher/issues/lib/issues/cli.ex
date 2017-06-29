@@ -1,4 +1,5 @@
 defmodule Issues.CLI do
+	import Issues.TableFormatter, only: [ print_table_for_columns: 2 ]
 	@default_count 4
 	
 	@moduledoc """
@@ -38,6 +39,12 @@ defmodule Issues.CLI do
 			_ -> :help
 		end
 	end
+	
+	def main(argv) do
+		argv
+		|> parse_args
+		|> process
+	end
 
 	def process(:help) do
 		IO.puts """
@@ -50,7 +57,8 @@ defmodule Issues.CLI do
 		|> decode_response
 		|> convert_to_list_of_maps
 		|> sort_into_ascending_order
-		|> Enum.take(count)
+		|> Enum.take(_count)
+		|> print_table_for_columns(["number", "created_at", "title"])
 
 	end
 
@@ -70,4 +78,6 @@ defmodule Issues.CLI do
 		Enum.sort list,
 							fn i1, i2 -> i1["created_at"] <= i2["created_at"] end 
 	end
+
+
 end
