@@ -6,17 +6,7 @@ defmodule Pop.Application do
   use Application
 
   def start(_type, _args) do
-    import Supervisor.Spec, warn: false
-
-    # Define workers and child supervisors to be supervised
-    children = [
-      # Starts a worker by calling: Pop.Worker.start_link(arg1, arg2, arg3)
-      worker(Pop.Stack, [['test', 'test2', 'test3']]),
-    ]
-
-    # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
-    # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: Pop.Supervisor]
-    Supervisor.start_link(children, opts)
+    start_state = 1..15 |> Enum.to_list
+    Pop.Supervisor.start_link(start_state)
   end
 end

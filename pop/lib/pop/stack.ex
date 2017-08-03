@@ -1,8 +1,10 @@
 defmodule Pop.Stack do
 	use GenServer
 
-	def start_link(stack) do
-		GenServer.start_link(__MODULE__, stack, name: __MODULE__)
+	####
+	# External API
+	def start_link(stash_pid) do
+		GenServer.start_link(__MODULE__, stash_pid, name: __MODULE__)
 	end
 
 	def pop do
@@ -12,16 +14,23 @@ defmodule Pop.Stack do
 	def push(item)do
 		GenServer.cast __MODULE__, {:push, item}
 	end
-
-	def handle_call(:pop, _from, [head|tail]) 	do
-		{ :reply, head, tail }
+	
+	####
+	# GenServer piping
+	def init(stash_pid) do
+		stack = Pop.Stash.get_value stash_pid
+		{ :ok, {stack, stash_pid}}
+	end
+	def handle_call(:pop, _from, {[head|tail], stash_pid}) 	do
+		{ :reply, head, {tail, stash_pid} }
 	end
 
-	def handle_cast({:push, item}, list) 	do
-		{ :noreply, [item|list] }
+	def handle_cast({:push, item}, {list, stash_pid}) 	do
+		{ :noreply, {[item|list], stash_pid} }
 	end
 
-	def terminate({:emptystack, []}) do
-		{:emptystack, []}
+	def terminate(_reason, {list, stash_pid}) do
+		Pop.Stash.save_value stash_pid, list
 	end
+
 end
