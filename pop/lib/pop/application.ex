@@ -6,7 +6,6 @@ defmodule Pop.Application do
   use Application
 
   def start(_type, _args) do
-    start_state = 1..15 |> Enum.to_list
-    Pop.Supervisor.start_link(start_state)
+    Pop.Supervisor.start_link(Application.get_env(:pop, :initial_stack))
   end
 end

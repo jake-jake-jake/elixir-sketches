@@ -16,6 +16,7 @@ defmodule Pop.Mixfile do
   def application do
     # Specify extra applications you'll use from Erlang/Elixir
     [extra_applications: [:logger],
+     env: [initial_stack: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]],
      mod: {Pop.Application, []}]
   end
 
