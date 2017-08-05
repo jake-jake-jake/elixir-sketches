@@ -14,6 +14,10 @@ defmodule Pop.Stack do
 	def push(item)do
 		GenServer.cast __MODULE__, {:push, item}
 	end
+
+	def kill do
+		GenServer.stop __MODULE__
+	end
 	
 	####
 	# GenServer piping
