@@ -4,8 +4,8 @@ defmodule My do
 		else_clause = Keyword.get(clauses, :do, nil)
 		quote do
 			case unquote(condition) do
-				val when val == true -> unquote(else_clause)
-				_									   -> unquote(unless_clause)
+				val when val != true -> unquote(unless_clause)
+				_									   -> unquote(else_clause)
 			end
 		end
 	end
