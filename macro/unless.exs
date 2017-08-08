@@ -14,7 +14,7 @@ end
 defmodule Test do
 	require My
 		My.unless 1 + 1==2 do
-			IO.puts "1 + 1== 2"
+			IO.puts "1 + 1 == 2"
 		else
 			IO.puts "1 != 2"
 	end
